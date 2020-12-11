@@ -1,61 +1,69 @@
 <template>
-  <div class="hello">
-    <Header />
-    <div class="container mrgnbtm">
-          <div class="row">
-            <div class="col-md-8">
-                <CreateUser @createUser="userCreate($event)" />
-            </div>
-            <div class="col-md-4">
-                <DisplayBoard :numberOfUsers="numberOfUsers" @getAllUsers="getAllUsers()" />
-            </div>
-          </div>
-    </div>
-    <div class="row mrgnbtm">
-        <Users v-if="users.length > 0" :users="users" />
-    </div>
-  </div>
+	<div class="hello">
+		<Header />
+		<div class="container mrgnbtm">
+			<div id='app'>
+				<b-alert variant="danger" :show="error" fade dismissible> {{ errorMessage }} </b-alert>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<SaveRepository @getRepositories="getRepositories($event)" :error="error" :errorMessage="errorMessage" />
+				</div>
+				<div class="col-md-4">
+					<DisplayBoard :numberOfUsers="numberOfUsers" @getRepositories="getRepositories()" />
+				</div>
+			</div>
+		</div>
+		<div class="row mrgnbtm">
+			<Repositories v-if="repositories.length > 0" :repositories="repositories" :language="language" />
+		</div>
+	</div>
 </template>
 
 <script>
 import Header from './Header.vue'
-import CreateUser from './CreateUser.vue'
+import SaveRepository from './SaveRepository'
 import DisplayBoard from './DisplayBoard.vue'
-import Users from './Users.vue'
-import { getAllUsers, createUser } from '../services/UserService'
+import Repositories from './Repositories'
+import { getRepositories, } from '../services/RepositoryService'
 
 export default {
-  name: 'Dashboard',
-  components: {
-    Header,
-    CreateUser,
-    DisplayBoard,
-    Users
-  },
-  data() {
-      return {
-          users: [],
-          numberOfUsers: 0
-      }
-  },
-  methods: {
-    getAllUsers() {
-      getAllUsers().then(response => {
-        console.log(response)
-        this.users = response
-        this.numberOfUsers = this.users.length
-      })
-    },
-    userCreate(data) {
-      console.log('data:::', data)
-      createUser(data).then(response => {
-        console.log(response);
-        this.getAllUsers();
-      });
-    }
-  },
-  mounted () {
-    this.getAllUsers();
-  }
+	name: 'Dashboard',
+	components: {
+		Header,
+		SaveRepository,
+		DisplayBoard,
+		Repositories
+	},
+	data() {
+		return {
+			repositories: [],
+			numberOfUsers: 0,
+			language: '',
+			error: false,
+			errorMessage: ''
+		}
+	},
+	methods: {
+		getRepositories(data) {
+			getRepositories(data)
+				.then((response) => {
+					console.log(response)
+					if (response.status != 442) {
+						this.error = false
+						this.repositories = response
+						this.numberOfUsers = this.repositories.length
+						if (response.length > 0) {
+							this.language = response[0].language
+						}
+					}else {
+						this.error = true
+						this.errorMessage = response.message
+						this.repositories = []
+						this.numberOfUsers = 0
+					}
+				})
+		}
+	}
 }
 </script>
