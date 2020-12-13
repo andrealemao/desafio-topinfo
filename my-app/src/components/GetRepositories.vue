@@ -39,27 +39,20 @@ export default {
     return {
       language: "",
       page: 1,
-    };
+    }
   },
   methods: {
     getRepositories() {
       const payload = {
         language: this.language,
         page: this.page,
-      };
-      this.$emit("getRepositories", payload);
-      this.clearForm();
+      }
+      this.$emit("getRepositories", payload)
+      this.clearForm()
     },
     clearForm() {
-      this.language = "";
+      this.language = ""
     },
-  },
-
-  created: function () {
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  destroyed: function () {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
-};
+  }
+}
 </script>
