@@ -20,14 +20,10 @@ app.get('/api/repositories/:language', (req, res) => {
 		})
 		.catch((error) => {
 			if (error.response.status == 422 && error.response.data.errors[0].code == "invalid") {
-				
 				res.status(442).send({
 					status: 442,
 					message: "Language invalid or doesn't exists!"
 				})
-				
-				// console.log("Ocorreu um erro, tente novamente!")
-				// console.log(error.response.data.errors.toString())
 			} else {
 				console.log("Ocorreu um erro, tente novamente!")
 			}
@@ -36,6 +32,7 @@ app.get('/api/repositories/:language', (req, res) => {
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '../my-app/build/index.html'));
+	// res.sendFile(path.join(__dirname, '../my-app/dist/index.html'));
 });
 
 app.listen(process.env.PORT || port, () => {

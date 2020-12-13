@@ -7,7 +7,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-8">
-					<SaveRepository @getRepositories="getRepositories($event)" :error="error" :errorMessage="errorMessage" />
+					<GetRepositories @getRepositories="getRepositories($event)" :error="error" :errorMessage="errorMessage" />
 				</div>
 				<div class="col-md-4">
 					<DisplayBoard :numberOfUsers="numberOfUsers" @getRepositories="getRepositories()" />
@@ -22,7 +22,7 @@
 
 <script>
 import Header from './Header.vue'
-import SaveRepository from './SaveRepository'
+import GetRepositories from './GetRepositories'
 import DisplayBoard from './DisplayBoard.vue'
 import Repositories from './Repositories'
 import { getRepositories, } from '../services/RepositoryService'
@@ -31,7 +31,7 @@ export default {
 	name: 'Dashboard',
 	components: {
 		Header,
-		SaveRepository,
+		GetRepositories,
 		DisplayBoard,
 		Repositories
 	},

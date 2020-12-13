@@ -9,9 +9,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.21.0",
     "bootstrap": "^4.5.2",
-    "bootstrap-vue": "^2.20.1",
+    "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "serve-static": "^1.14.1",
