@@ -12,8 +12,8 @@ let repositories = [];
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../my-app/dist')));
 
-app.get('/api/repositories/:language', (req, res) => {
-	axios.get(`https://api.github.com/search/repositories?q=language:${req.params.language}&sort=stars&page=1`)
+app.get('/api/repositories/:language/:page', (req, res) => {
+	axios.get(`https://api.github.com/search/repositories?q=language:${req.params.language}&sort=stars&page=${req.params.page}`)
 		.then((response) => {
 			repositories = response.data.items
 			res.json(repositories)
